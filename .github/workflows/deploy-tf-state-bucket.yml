@@ -1,0 +1,38 @@
+name: Deploy Terraform state bucket
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: 'Deploy Terraform state bucket'
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy state bucket
+        run: |
+          set -a 
+          source .env.backend
+          az login --service-principal \
+            -u ${{ secrets.ARM_CLIENT_ID }} \
+            -p ${{ secrets.ARM_CLIENT_SECRET }} \
+            --tenant ${{ secrets.ARM_TENANT_ID }}
+          az group create \
+            -l $TF_VAR_location \
+            -n $TF_VAR_state_resource_group_name
+          az storage account create \
+            -n $TF_VAR_state_storage_account_name \
+            -g $TF_VAR_state_resource_group_name \
+            -l $TF_VAR_location \
+            --sku Standard_LRS \
+            --allow-blob-public-access false
+          az storage container create \
+            --name tfstate \
+            --account-name $TF_VAR_state_storage_account_name
