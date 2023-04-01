@@ -2,8 +2,6 @@ on:
   release:
     types: [published]
     branches: [main]
-  workflow_dispatch:
-    branches: [main]
 
 name: On Release Main
 
