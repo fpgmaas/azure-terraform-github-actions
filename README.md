@@ -1,8 +1,8 @@
 # azure-terraform-github-actions
 
-This repository contains the source code for [this](https://www.fpgmaas.com/blog/azure-terraform-github-actions) blog post.
+This repository serves as an example/template for deploying Azure infrastructure using Terraform, based on the steps outlined in [this](https://www.fpgmaas.com/blog/azure-terraform-github-actions) blog post.
 
-The project has following features:
+The project has the following features:
 
 - Use a Service Principal to authenticate to Azure services.
 - Deploy a remote state bucket for Terraform on Azure using the  `Deploy Terraform State Bucket` workflow.
